@@ -1,0 +1,30 @@
+name: Cleanup Preview Deployments
+
+on:
+  pull_request:
+    types: [closed]
+  delete:
+    branches:
+      - 'test-deploy-*'
+
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || github.event_name == 'delete'
+    
+    steps:
+      - name: 📦 Install Vercel CLI
+        run: npm install -g vercel@latest
+      
+      - name: 🧹 Remove Preview Deployments
+        run: |
+          echo "Cleaning up preview deployments for branch: ${{ github.ref_name }}"
+          # List and remove deployments for this branch
+          vercel ls --token=${{ secrets.VERCEL_TOKEN }} | grep "${{ github.ref_name }}" || echo "No deployments found"
+      
+      - name: ✅ Cleanup Complete
+        run: echo "Preview deployment cleanup completed for ${{ github.ref_name }}"
