@@ -1,0 +1,19 @@
+name: Create 10MB Artifact
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Create 10MB file
+      run: |
+        dd if=/dev/urandom of=sample_10mb.bin bs=1M count=10
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: sample-10mb-file
+          path: sample_10mb.bin
