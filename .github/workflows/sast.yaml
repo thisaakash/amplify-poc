@@ -1,6 +1,9 @@
-name: Create 10MB Artifact
+name: Create 1.5GB Artifact
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
@@ -8,12 +11,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Create 10MB file
+      - name: Create 1.5GB file
         run: |
           dd if=/dev/urandom of=sample_1_5gb.bin bs=1M count=1500
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: sample-10mb-file
-          path: sample_10mb.bin
+          name: sample-1-5gb-file
+          path: sample_1_5gb.bin
