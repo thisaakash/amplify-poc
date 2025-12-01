@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Create 10MB file
         run: |
-          dd if=/dev/urandom of=sample_10mb.bin bs=1M count=10
+          dd if=/dev/urandom of=sample_1_5gb.bin bs=1M count=1500
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
